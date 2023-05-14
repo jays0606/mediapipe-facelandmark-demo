@@ -70,13 +70,13 @@ const FaceLandmarkCanvas = () => {
     <div>
       <div className="flex justify-center gap-10 mt-5 mb-10">
         <button
-          className="self-end bg-blue-500 text-white px-2 py-1 rounded mb-4"
+          className="self-end bg-purple-700 hover:bg-purple-600 transition text-white px-4 py-2 rounded mb-4 shadow-md"
           onClick={toggleAvatarView}
         >
           {avatarView ? "Switch to Landmark View" : "Switch to Avatar View"}
         </button>
         <button
-          className="self-end bg-blue-500 text-white px-2 py-1 rounded mb-4"
+          className="self-end bg-purple-700 hover:bg-purple-600 transition text-white px-4 py-2 rounded mb-4 shadow-md"
           onClick={toggleAvatarCreatorView}
         >
           {"Customize your Avatar!"}
