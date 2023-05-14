@@ -11,13 +11,14 @@ const videoHeight = 480;
 
 const FaceLandmarkCanvas = () => {
   const videoRef = useRef(null);
+  const lastVideoTimeRef = useRef(-1);
   const requestRef = useRef(0);
   const [avatarView, setAvatarView] = useState(true);
   const [showAvatarCreator, setShowAvatarCreator] = useState(false);
   const [modelUrl, setModelUrl] = useState(
     "https://models.readyplayer.me/6460691aa35b2e5b7106734d.glb?morphTargets=ARKit"
   );
-  
+
   const toggleAvatarView = () => setAvatarView((prev) => !prev);
   const toggleAvatarCreatorView = () => setShowAvatarCreator((prev) => !prev);
   const handleAvatarCreationComplete = (url: string) => {
@@ -27,24 +28,20 @@ const FaceLandmarkCanvas = () => {
 
   const animate = () => {
     const faceLandmarkManager = FaceLandmarkManager.getInstance();
-    if (videoRef.current && faceLandmarkManager.faceLandmarker) {
-      try {
-        faceLandmarkManager.detectLandmarks(videoRef.current, Date.now());
-      } catch (e) {
-        // TODO: fix mediapipe graph error. Currently just force reload
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-        console.log(e);
+    if (videoRef.current) {
+      const video = videoRef.current as HTMLVideoElement;
+      if (video.currentTime !== lastVideoTimeRef.current) {
+        try {
+          faceLandmarkManager.detectLandmarks(videoRef.current, Date.now());
+          lastVideoTimeRef.current = video.currentTime;
+        } catch (e) {
+          faceLandmarkManager.initializeModel();
+          console.log(e);
+        }
       }
     }
     requestRef.current = requestAnimationFrame(animate);
   };
-
-  useEffect(() => {
-    requestRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(requestRef.current);
-  }, []);
 
   useEffect(() => {
     const getUserCamera = async () => {
@@ -63,7 +60,9 @@ const FaceLandmarkCanvas = () => {
       }
     };
     getUserCamera();
-  }, [videoRef]);
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, []);
 
   return (
     <div>

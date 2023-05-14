@@ -33,7 +33,7 @@ This project requires [Node.js](https://nodejs.org/en/download/) to be installed
 This project was created using:
 
 - [Next.js 13](https://nextjs.org/)
-- [Vercel] (https://vercel.com/)
+- [Vercel](https://vercel.com/)
 - [React](https://reactjs.org/)
 - [react-three-fiber](https://github.com/pmndrs/react-three-fiber)
 - [Three.js](https://threejs.org/)

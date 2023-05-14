@@ -8,7 +8,7 @@ import {
 class FaceLandmarkManager {
   private static instance: FaceLandmarkManager = new FaceLandmarkManager();
   private results!: FaceLandmarkerResult;
-  faceLandmarker!: FaceLandmarker;
+  faceLandmarker!: FaceLandmarker | null;
 
   private constructor() {
     this.initializeModel();
@@ -18,9 +18,8 @@ class FaceLandmarkManager {
     return FaceLandmarkManager.instance;
   }
 
-  private initializeModel = async () => {
-    if (this.faceLandmarker) return;
-
+  initializeModel = async () => {
+    this.faceLandmarker = null
     const filesetResolver = await FilesetResolver.forVisionTasks(
       "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
     );
