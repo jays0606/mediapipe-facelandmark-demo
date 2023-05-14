@@ -1,40 +1,40 @@
-# Avatar Controller
+# Mediapipe-Facelandmarker-Demo
 
-This project serves as a baseline for controlling [ReadyPlayerMe](https://readyplayer.me) GLTF avatars using threejs, NextJS 13, react-three-fiber. It demonstrates how to load, play, and interchange between Mixamo animations. Additionally, it includes a joystick to update the avatar's movement in a 3D scene.
+Animate 3D avatar face using MediaPipe's face-landmark model.
 
-## Features
-
-- Loading and displaying ReadyPlayerMe avatars
-- Interchanging between Mixamo animations
-- Joystick integration for avatar movement
-- Local development environment
-
-## TODO
-
-- Third person camera
-- Implement user login
-- Load custom ReadyPlayerMe avatars (embed iframe)
-- Add keyboard controls (run, jump)
-- Add physics to the scene
-- Add more animations
-- Deploy production
+This project aims to test and demonstrate the capabilities of MediaPipe's new face landmark model, which outputs 52 blendshapes. These blendshapes can be interactively tested with avatars from Ready Player Me, with additional features available for customizing these avatars.
 
 ## Prerequisites
 
-- Node.js and npm (latest LTS version recommended)
+This project requires [Node.js](https://nodejs.org/en/download/) to be installed on your local machine.
 
-## How to Run & Deploy
+## Installation
 
-Follow these steps to set up and run the project locally:
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/jays0606/mediapipe-facelandmarker-demo.git
+   ```
+2. Navigate into the project directory:
+   ```sh
+   cd mediapipe-facelandmarker-demo
+   ```
+3. Install the necessary dependencies:
+   ```sh
+   npm install
+   ```
+4. Run the following command, Open your browser and visit http://localhost:3000 to view the project.
+    ```sh
+    npm run dev
+    ```
+## Built With
 
-1. Clone this repository or download the source code.
-2. Open a terminal/command prompt, and navigate to the project folder.
-3. Run `npm install` to install the required dependencies.
-4. Run `npm run dev` to start the development server.
-5. Open your web browser, and visit `http://localhost:3000`.
+This project was created using:
 
-The project will now be running locally on your machine at `http://localhost:3000`.
+- [Next.js 13](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [react-three-fiber](https://github.com/pmndrs/react-three-fiber)
+- [Three.js](https://threejs.org/)
+- [MediaPipe Face Landmarker](https://developers.google.com/mediapipe/api/solutions/js/tasks-vision.facelandmarker)
 
-## Contribution
-
-Feel free to open issues or submit pull requests for any enhancements, bug fixes or additional features. Your contribution is much appreciated!
+## Contact
+Jaeho Shin - jaehoshin62@gmail.com
