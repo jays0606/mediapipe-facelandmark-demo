@@ -1,15 +1,19 @@
-"use client";
-
 import FaceLandmarkManager from "@/class/FaceLandmarkManager";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-const DrawLandmarkCanvas = () => {
+interface DrawLandmarkCanvasProps {
+  width: number;
+  height: number;
+}
+const DrawLandmarkCanvas = ({ width, height }: DrawLandmarkCanvasProps) => {
   const drawCanvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef(0);
 
   const animate = () => {
     const faceLandmarkManager = FaceLandmarkManager.getInstance();
     if (drawCanvasRef.current) {
+      drawCanvasRef.current.width = width;
+      drawCanvasRef.current.height = height;
       faceLandmarkManager.drawLandmarks(drawCanvasRef.current);
     }
     requestRef.current = requestAnimationFrame(animate);
@@ -23,7 +27,7 @@ const DrawLandmarkCanvas = () => {
   return (
     <canvas
       className="absolute"
-      style={{ width: 640, height: 480, transform: "scaleX(-1)" }}
+      style={{ width: width, height: height, transform: "scaleX(-1)" }}
       ref={drawCanvasRef}
     ></canvas>
   );

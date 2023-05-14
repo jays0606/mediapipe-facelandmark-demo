@@ -58,12 +58,12 @@ class FaceLandmarkManager {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const drawingUtils = new DrawingUtils(ctx);
 
-    const lineWidth = 0.8;
+    const lineWidth = 1.3;
     for (const landmarks of this.results.faceLandmarks) {
       drawingUtils.drawConnectors(
         landmarks,
         FaceLandmarker.FACE_LANDMARKS_TESSELATION,
-        { color: "#C0C0C070", lineWidth: lineWidth * 0.5 }
+        { color: "#C0C0C070", lineWidth: lineWidth }
       );
       drawingUtils.drawConnectors(
         landmarks,
@@ -88,7 +88,7 @@ class FaceLandmarkManager {
       drawingUtils.drawConnectors(
         landmarks,
         FaceLandmarker.FACE_LANDMARKS_FACE_OVAL,
-        { color: "#E0E0E0", lineWidth: lineWidth * 0.5 }
+        { color: "#E0E0E0", lineWidth: lineWidth }
       );
       drawingUtils.drawConnectors(
         landmarks,

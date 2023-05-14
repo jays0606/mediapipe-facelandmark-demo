@@ -1,6 +1,3 @@
-"use client";
-
-import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import FaceLandmarkCanvas from "../components/FaceLandmarkCanvas";
 
