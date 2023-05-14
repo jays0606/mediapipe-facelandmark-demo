@@ -21,21 +21,20 @@ class AvatarManager {
   };
 
   loadModel = async (url: string) => {
+    this.isModelLoaded = false;
     if (this.scene.children.length === 1) {
       this.scene.children[0].removeFromParent();
     }
     const gltf = await loadGltf(url);
     gltf.scene.traverse((obj) => (obj.frustumCulled = false));
     this.scene.add(gltf.scene);
-    this.isModelLoaded = true;
-
-    console.log(gltf.scene)
 
     // make hands invisible
     const LeftHand = this.scene.getObjectByName("LeftHand");
     const RightHand = this.scene.getObjectByName("RightHand");
     LeftHand?.scale.set(0, 0, 0);
     RightHand?.scale.set(0, 0, 0);
+    this.isModelLoaded = true;
   };
 
   updateFacialTransforms = (results: FaceLandmarkerResult, flipped = true) => {
@@ -89,7 +88,7 @@ class AvatarManager {
       translation.x *= -1;
     }
 
-    const Head = this.scene.getObjectByName("Head");    
+    const Head = this.scene.getObjectByName("Head");
     Head?.quaternion.slerp(quaternion, 1.0);
 
     const root = this.scene.getObjectByName("AvatarRoot");
