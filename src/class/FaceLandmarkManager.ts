@@ -39,6 +39,10 @@ class FaceLandmarkManager {
     );
   };
 
+  getResults = () => {
+    return this.results;
+  };
+
   detectLandmarks = (videoElement: HTMLVideoElement, time: number) => {
     if (!this.faceLandmarker) return;
 
@@ -54,7 +58,7 @@ class FaceLandmarkManager {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const drawingUtils = new DrawingUtils(ctx);
 
-    const lineWidth = 0.8
+    const lineWidth = 0.8;
     for (const landmarks of this.results.faceLandmarks) {
       drawingUtils.drawConnectors(
         landmarks,

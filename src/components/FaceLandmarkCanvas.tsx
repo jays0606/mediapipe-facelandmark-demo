@@ -1,12 +1,35 @@
 "use client";
 
 import FaceLandmarkManager from "@/class/FaceLandmarkManager";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import DrawLandmarkCanvas from "./DrawLandmarkCanvas";
+import AvatarCanvas from "./AvatarCanvas";
 
 const FaceLandmarkCanvas = () => {
   const videoRef = useRef(null);
-  const drawCanvasRef = useRef<HTMLCanvasElement>(null);
   const requestRef = useRef(0);
+  const [avatarView, setAvatarView] = useState(false);
+
+  const toggleAvatarView = () => {
+    setAvatarView((prev) => !prev);
+  };
+
+  const animate = () => {
+    const faceLandmarkManager = FaceLandmarkManager.getInstance();
+    if (videoRef.current && faceLandmarkManager.faceLandmarker) {
+      try {
+        faceLandmarkManager.detectLandmarks(videoRef.current, Date.now());
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    requestRef.current = requestAnimationFrame(animate);
+  };
+
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(requestRef.current);
+  }, []);
 
   useEffect(() => {
     const getUserCamera = async () => {
@@ -27,47 +50,23 @@ const FaceLandmarkCanvas = () => {
     getUserCamera();
   }, [videoRef]);
 
-  const animate = () => {
-    const faceLandmarkManager = FaceLandmarkManager.getInstance();
-    if (
-      videoRef.current &&
-      faceLandmarkManager &&
-      faceLandmarkManager.faceLandmarker
-    ) {
-      try {
-        const results = faceLandmarkManager.detectLandmarks(
-          videoRef.current,
-          Date.now()
-        );
-        if (drawCanvasRef.current) {
-          faceLandmarkManager.drawLandmarks(drawCanvasRef.current);
-        }
-        console.log(results);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    requestRef.current = requestAnimationFrame(animate);
-  };
-
-  useEffect(() => {
-    requestRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(requestRef.current);
-  }, []);
-
   return (
-    <>
-      <video
-        className="absolute top-0 left-0"
-        style={{ width: 640, height: 480 }}
-        ref={videoRef}
-      ></video>
-      <canvas
-        className="absolute top-0 left-0"
-        style={{ width: 640, height: 480, transform: "scaleX(-1)" }}
-        ref={drawCanvasRef}
-      ></canvas>
-    </>
+    <div>
+      <button
+        className="self-end bg-blue-500 text-white px-2 py-1 rounded mb-4"
+        onClick={toggleAvatarView}
+      >
+        {avatarView ? "Switch to Video View" : "Switch to Avatar View"}
+      </button>
+      <div className="flex justify-center">
+        <video
+          className="absolute"
+          style={{ width: 640, height: 480 }}
+          ref={videoRef}
+        ></video>
+        {avatarView ? <AvatarCanvas /> : <DrawLandmarkCanvas />}
+      </div>
+    </div>
   );
 };
 
