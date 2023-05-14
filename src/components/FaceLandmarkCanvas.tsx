@@ -49,11 +49,13 @@ const FaceLandmarkCanvas = () => {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { width: videoWidth, height: videoHeight },
         });
-        if (videoRef.current) {
-          const video = videoRef.current as HTMLVideoElement;
-          video.srcObject = stream;
-          video.play();
-        }
+        setTimeout(() => {
+          if (videoRef.current) {
+            const video = videoRef.current as HTMLVideoElement;
+            video.srcObject = stream;
+            video.play();
+          }
+        }, 300);
       } catch (e) {
         console.log(e);
         alert("Failed to load webcam!");
