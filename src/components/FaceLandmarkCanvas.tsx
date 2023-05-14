@@ -91,7 +91,11 @@ const FaceLandmarkCanvas = () => {
           ref={videoRef}
         ></video>
         {avatarView ? (
-          <AvatarCanvas width={videoWidth} height={videoHeight} url={modelUrl}/>
+          <AvatarCanvas
+            width={videoWidth}
+            height={videoHeight}
+            url={modelUrl}
+          />
         ) : (
           <DrawLandmarkCanvas width={videoWidth} height={videoHeight} />
         )}
