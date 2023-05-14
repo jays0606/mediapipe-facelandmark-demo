@@ -1,8 +1,10 @@
-# Mediapipe-Facelandmarker-Demo
+# [Mediapipe-Facelandmarker-Demo](https://mediapipe-facelandmark-demo.vercel.app/) 
 
 Animate 3D avatar face using MediaPipe's face-landmark model.
 
 This project aims to test and demonstrate the capabilities of MediaPipe's new face landmark model, which outputs 52 blendshapes. These blendshapes can be interactively tested with avatars from Ready Player Me, with additional features available for customizing these avatars.
+
+<img src="public/assets/demo/sample.png" width="640" height="480" />
 
 ## Prerequisites
 
@@ -31,6 +33,7 @@ This project requires [Node.js](https://nodejs.org/en/download/) to be installed
 This project was created using:
 
 - [Next.js 13](https://nextjs.org/)
+- [Vercel] (https://vercel.com/)
 - [React](https://reactjs.org/)
 - [react-three-fiber](https://github.com/pmndrs/react-three-fiber)
 - [Three.js](https://threejs.org/)

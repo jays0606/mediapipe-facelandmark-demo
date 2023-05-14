@@ -17,7 +17,7 @@ const FaceLandmarkCanvas = () => {
   const [modelUrl, setModelUrl] = useState(
     "https://models.readyplayer.me/6460691aa35b2e5b7106734d.glb?morphTargets=ARKit"
   );
-
+  
   const toggleAvatarView = () => setAvatarView((prev) => !prev);
   const toggleAvatarCreatorView = () => setShowAvatarCreator((prev) => !prev);
   const handleAvatarCreationComplete = (url: string) => {
@@ -31,6 +31,10 @@ const FaceLandmarkCanvas = () => {
       try {
         faceLandmarkManager.detectLandmarks(videoRef.current, Date.now());
       } catch (e) {
+        // TODO: fix mediapipe graph error. Currently just force reload
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
         console.log(e);
       }
     }
