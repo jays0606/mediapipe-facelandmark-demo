@@ -30,14 +30,10 @@ const FaceLandmarkCanvas = () => {
     const faceLandmarkManager = FaceLandmarkManager.getInstance();
     if (videoRef.current) {
       const video = videoRef.current as HTMLVideoElement;
+      const nowInMs = Date.now();
       if (video.currentTime !== lastVideoTimeRef.current) {
-        try {
-          faceLandmarkManager.detectLandmarks(videoRef.current, Date.now());
-          lastVideoTimeRef.current = video.currentTime;
-        } catch (e) {
-          faceLandmarkManager.initializeModel();
-          console.log(e);
-        }
+        lastVideoTimeRef.current = video.currentTime;
+        faceLandmarkManager.detectLandmarks(videoRef.current, nowInMs);
       }
     }
     requestRef.current = requestAnimationFrame(animate);
@@ -53,7 +49,7 @@ const FaceLandmarkCanvas = () => {
           if (videoRef.current) {
             const video = videoRef.current as HTMLVideoElement;
             video.srcObject = stream;
-            video.play();
+            video.onloadedmetadata = () => video.play();
           }
         }, 300);
       } catch (e) {
