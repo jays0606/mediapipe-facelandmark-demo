@@ -16,6 +16,14 @@ export default function Home() {
     <div className="flex flex-col items-center px-2 pt-10 bg-gradient-to-r from-purple-500 to-blue-800 min-h-screen text-white">
       <Head>
         <title>Mediapie FaceLandmarker Demo</title>
+        <meta
+          name="description"
+          content="A demo application showcasing Mediapie FaceLandmarker's real-time facial landmark and blendshape score estimation."
+        />
+        <meta
+          name="keywords"
+          content="Mediapie, FaceLandmarker, AR Filter, ReadyPlayerMe, Facial landmarks, tensorflow-js"
+        />
       </Head>
       <h1 className="text-xl md:text-4xl font-bold mb-2 text-shadow text-center">
         Mediapie FaceLandmarker Demo
