@@ -19,7 +19,7 @@ const ReadyPlayerCreator = ({
   handleComplete,
 }: ReadyPlayerCreatorProps) => {
   return (
-    <div style={{ width: width, height: height, zIndex: 1 }}>
+    <div className="absolute" style={{ width: width, height: height, zIndex: 1 }}>
       <AvatarCreator
         subdomain="demo"
         editorConfig={config}

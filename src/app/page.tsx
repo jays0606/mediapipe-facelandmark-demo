@@ -17,14 +17,16 @@ export default function Home() {
       <Head>
         <title>Mediapie FaceLandmarker Demo</title>
       </Head>
-      <h1 className="text-4xl font-bold mb-4 mt-10 text-shadow">
+      <h1 className="text-xl md:text-4xl font-bold mb-2 text-shadow text-center">
         Mediapie FaceLandmarker Demo
       </h1>
-      <p className="mt-4 mb-8 text-center px-4 text-lg">
+      <p className="mt-4 mb-4 text-center px-4 md:text-lg text-sm">
         Detect the most prominent face from an input image, then estimate 478 3D
         facial landmarks and 52 facial blendshape scores in real-time.
       </p>
-      <FaceLandmarkCanvas />
+      <div className="flex justify-center w-full">
+        <FaceLandmarkCanvas />
+      </div>
     </div>
   );
 }

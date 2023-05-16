@@ -6,9 +6,6 @@ import AvatarCanvas from "./AvatarCanvas";
 import FaceLandmarkManager from "@/class/FaceLandmarkManager";
 import ReadyPlayerCreator from "./ReadyPlayerCreator";
 
-const videoWidth = 640;
-const videoHeight = 480;
-
 const FaceLandmarkCanvas = () => {
   const videoRef = useRef(null);
   const lastVideoTimeRef = useRef(-1);
@@ -18,6 +15,10 @@ const FaceLandmarkCanvas = () => {
   const [modelUrl, setModelUrl] = useState(
     "https://models.readyplayer.me/6460691aa35b2e5b7106734d.glb?morphTargets=ARKit"
   );
+  const [videoSize, setVideoSize] = useState<{
+    width: number;
+    height: number;
+  }>();
 
   const toggleAvatarView = () => setAvatarView((prev) => !prev);
   const toggleAvatarCreatorView = () => setShowAvatarCreator((prev) => !prev);
@@ -43,15 +44,19 @@ const FaceLandmarkCanvas = () => {
     const getUserCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: videoWidth, height: videoHeight },
+          video: true,
         });
-        setTimeout(() => {
-          if (videoRef.current) {
-            const video = videoRef.current as HTMLVideoElement;
-            video.srcObject = stream;
-            video.onloadedmetadata = () => video.play();
-          }
-        }, 300);
+        if (videoRef.current) {
+          const video = videoRef.current as HTMLVideoElement;
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            setVideoSize({
+              width: video.offsetWidth,
+              height: video.offsetHeight,
+            });
+            video.play();
+          };
+        }
       } catch (e) {
         console.log(e);
         alert("Failed to load webcam!");
@@ -63,42 +68,52 @@ const FaceLandmarkCanvas = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <div className="flex justify-center gap-10 mt-5 mb-10">
         <button
-          className="self-end bg-purple-700 hover:bg-purple-600 transition text-white px-4 py-2 rounded mb-4 shadow-md"
+          className="self-end bg-purple-700 hover:bg-purple-600 transition text-white px-2 py-1 rounded mb-2 shadow-md text-sm sm:text-base"
           onClick={toggleAvatarView}
         >
           {avatarView ? "Switch to Landmark View" : "Switch to Avatar View"}
         </button>
         <button
-          className="self-end bg-purple-700 hover:bg-purple-600 transition text-white px-4 py-2 rounded mb-4 shadow-md"
+          className="self-end bg-purple-700 hover:bg-purple-600 transition text-white px-2 py-1 rounded mb-2 shadow-md text-sm sm:text-base"
           onClick={toggleAvatarCreatorView}
         >
           {"Customize your Avatar!"}
         </button>
       </div>
       <div className="flex justify-center">
-        {showAvatarCreator && (
-          <ReadyPlayerCreator
-            width={videoWidth}
-            height={videoHeight}
-            handleComplete={handleAvatarCreationComplete}
-          />
-        )}
         <video
-          className="absolute"
-          style={{ width: videoWidth, height: videoHeight }}
+          className="w-full h-auto"
           ref={videoRef}
+          loop={true}
+          muted={true}
+          autoPlay={true}
+          playsInline={true}
         ></video>
-        {avatarView ? (
-          <AvatarCanvas
-            width={videoWidth}
-            height={videoHeight}
-            url={modelUrl}
-          />
-        ) : (
-          <DrawLandmarkCanvas width={videoWidth} height={videoHeight} />
+        {videoSize && (
+          <>
+            {showAvatarCreator && (
+              <ReadyPlayerCreator
+                width={videoSize.width}
+                height={videoSize.height}
+                handleComplete={handleAvatarCreationComplete}
+              />
+            )}
+            {avatarView ? (
+              <AvatarCanvas
+                width={videoSize.width}
+                height={videoSize.height}
+                url={modelUrl}
+              />
+            ) : (
+              <DrawLandmarkCanvas
+                width={videoSize.width}
+                height={videoSize.height}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
