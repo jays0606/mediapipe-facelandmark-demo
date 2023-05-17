@@ -35,6 +35,7 @@ class AvatarManager {
     LeftHand?.scale.set(0, 0, 0);
     RightHand?.scale.set(0, 0, 0);
     this.isModelLoaded = true;
+    return this.scene;
   };
 
   updateFacialTransforms = (results: FaceLandmarkerResult, flipped = true) => {

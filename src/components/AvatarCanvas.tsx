@@ -13,6 +13,7 @@ interface AvatarCanvasProps {
 
 const AvatarCanvas = ({ width, height, url }: AvatarCanvasProps) => {
   const [scene, setScene] = useState<THREE.Scene | null>();
+  const [isLoading, setIsLoading] = useState(true);
   const avatarManagerRef = useRef<AvatarManager>(AvatarManager.getInstance());
   const requestRef = useRef(0);
 
@@ -28,11 +29,17 @@ const AvatarCanvas = ({ width, height, url }: AvatarCanvasProps) => {
   }, []);
 
   useEffect(() => {
-    setScene(null);
+    setIsLoading(true);
     const avatarManager = AvatarManager.getInstance();
-    avatarManager.loadModel(url).then(() => {
-      setScene(avatarManagerRef.current.getScene());
-    });
+    avatarManager
+      .loadModel(url)
+      .then((scene) => {
+        setScene(scene);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        alert(e);
+      });
   }, [url]);
 
   return (
@@ -47,9 +54,8 @@ const AvatarCanvas = ({ width, height, url }: AvatarCanvasProps) => {
           enableZoom={false}
           enablePan={false}
         />
-        {scene ? (
-          <primitive object={scene} />
-        ) : (
+        {scene && <primitive object={scene} />}
+        {isLoading && (
           <Float floatIntensity={1} speed={1}>
             <Text3D
               font={"../assets/fonts/Open_Sans_Condensed_Bold.json"}
