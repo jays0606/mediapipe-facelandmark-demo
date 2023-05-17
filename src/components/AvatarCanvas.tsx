@@ -33,8 +33,8 @@ const AvatarCanvas = ({ width, height, url }: AvatarCanvasProps) => {
     const avatarManager = AvatarManager.getInstance();
     avatarManager
       .loadModel(url)
-      .then((scene) => {
-        setScene(scene);
+      .then(() => {
+        setScene(avatarManager.getScene());
         setIsLoading(false);
       })
       .catch((e) => {
