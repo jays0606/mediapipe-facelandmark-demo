@@ -50,17 +50,19 @@ const FaceLandmarkCanvas = () => {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
         });
-        if (videoRef.current) {
-          const video = videoRef.current as HTMLVideoElement;
-          video.srcObject = stream;
-          video.onloadedmetadata = () => {
-            setVideoSize({
-              width: video.offsetWidth,
-              height: video.offsetHeight,
-            });
-            video.play();
-          };
-        }
+        setTimeout(() => {
+          if (videoRef.current) {
+            const video = videoRef.current as HTMLVideoElement;
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
+              setVideoSize({
+                width: video.offsetWidth,
+                height: video.offsetHeight,
+              });
+              video.play();
+            };
+          }
+        }, 300);
       } catch (e) {
         console.log(e);
         alert("Failed to load webcam!");

@@ -44,7 +44,6 @@ class FaceLandmarkManager {
 
   detectLandmarks = (videoElement: HTMLVideoElement, time: number) => {
     if (!this.faceLandmarker) return;
-    if (!videoElement.offsetHeight || !videoElement.offsetWidth) return;
 
     const results = this.faceLandmarker.detectForVideo(videoElement, time);
     this.results = results;
