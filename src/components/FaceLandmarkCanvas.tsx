@@ -1,13 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DrawLandmarkCanvas from "./DrawLandmarkCanvas";
 import AvatarCanvas from "./AvatarCanvas";
 import FaceLandmarkManager from "@/class/FaceLandmarkManager";
 import ReadyPlayerCreator from "./ReadyPlayerCreator";
 
 const FaceLandmarkCanvas = () => {
-  const videoRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const lastVideoTimeRef = useRef(-1);
   const requestRef = useRef(0);
   const [avatarView, setAvatarView] = useState(true);
@@ -28,17 +28,16 @@ const FaceLandmarkCanvas = () => {
   };
 
   const animate = () => {
-    if (videoRef.current) {
-      const video = videoRef.current as HTMLVideoElement;
-      const nowInMs = Date.now();
-      if (video.currentTime !== lastVideoTimeRef.current) {
-        lastVideoTimeRef.current = video.currentTime;
-        try {
-          const faceLandmarkManager = FaceLandmarkManager.getInstance();
-          faceLandmarkManager.detectLandmarks(videoRef.current, nowInMs);
-        } catch (e) {
-          console.log(e);
-        }
+    if (
+      videoRef.current &&
+      videoRef.current.currentTime !== lastVideoTimeRef.current
+    ) {
+      lastVideoTimeRef.current = videoRef.current.currentTime;
+      try {
+        const faceLandmarkManager = FaceLandmarkManager.getInstance();
+        faceLandmarkManager.detectLandmarks(videoRef.current, Date.now());
+      } catch (e) {
+        console.log(e);
       }
     }
     requestRef.current = requestAnimationFrame(animate);
@@ -51,14 +50,16 @@ const FaceLandmarkCanvas = () => {
           video: true,
         });
         if (videoRef.current) {
-          const video = videoRef.current as HTMLVideoElement;
-          video.srcObject = stream;
-          video.onloadedmetadata = () => {
+          videoRef.current.srcObject = stream;
+          videoRef.current.onloadedmetadata = () => {
             setVideoSize({
-              width: video.offsetWidth,
-              height: video.offsetHeight,
+              width: videoRef.current!.offsetWidth,
+              height: videoRef.current!.offsetHeight,
             });
-            video.play();
+            videoRef.current!.play();
+
+            // Start animation once video is loaded
+            requestRef.current = requestAnimationFrame(animate);
           };
         }
       } catch (e) {
@@ -67,7 +68,7 @@ const FaceLandmarkCanvas = () => {
       }
     };
     getUserCamera();
-    requestRef.current = requestAnimationFrame(animate);
+
     return () => cancelAnimationFrame(requestRef.current);
   }, []);
 
