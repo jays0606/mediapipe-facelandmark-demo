@@ -19,7 +19,7 @@ class FaceLandmarkManager {
   }
 
   initializeModel = async () => {
-    this.faceLandmarker = null
+    this.faceLandmarker = null;
     const filesetResolver = await FilesetResolver.forVisionTasks(
       "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
     );
@@ -44,6 +44,7 @@ class FaceLandmarkManager {
 
   detectLandmarks = (videoElement: HTMLVideoElement, time: number) => {
     if (!this.faceLandmarker) return;
+    if (!videoElement.offsetHeight || !videoElement.offsetWidth) return;
 
     const results = this.faceLandmarker.detectForVideo(videoElement, time);
     this.results = results;

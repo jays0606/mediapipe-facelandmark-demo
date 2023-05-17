@@ -34,7 +34,11 @@ const FaceLandmarkCanvas = () => {
       const nowInMs = Date.now();
       if (video.currentTime !== lastVideoTimeRef.current) {
         lastVideoTimeRef.current = video.currentTime;
-        faceLandmarkManager.detectLandmarks(videoRef.current, nowInMs);
+        try {
+          faceLandmarkManager.detectLandmarks(videoRef.current, nowInMs);
+        } catch (e) {
+          console.log(e);
+        }
       }
     }
     requestRef.current = requestAnimationFrame(animate);
