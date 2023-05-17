@@ -4,7 +4,7 @@ Animate 3D avatar face using MediaPipe's face-landmark model.
 
 This project aims to test and demonstrate the capabilities of MediaPipe's new face landmark model, which outputs 52 blendshapes. These blendshapes can be interactively tested with avatars from Ready Player Me, with additional features available for customizing these avatars.
 
-<img src="public/assets/demo/sample.png" width="640" height="480" />
+<img src="public/assets/demo/sample.gif" width="640" height="480" />
 
 ## Prerequisites
 
