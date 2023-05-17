@@ -10,10 +10,10 @@ const DrawLandmarkCanvas = ({ width, height }: DrawLandmarkCanvasProps) => {
   const requestRef = useRef(0);
 
   const animate = () => {
-    const faceLandmarkManager = FaceLandmarkManager.getInstance();
     if (drawCanvasRef.current) {
       drawCanvasRef.current.width = width;
       drawCanvasRef.current.height = height;
+      const faceLandmarkManager = FaceLandmarkManager.getInstance();
       faceLandmarkManager.drawLandmarks(drawCanvasRef.current);
     }
     requestRef.current = requestAnimationFrame(animate);

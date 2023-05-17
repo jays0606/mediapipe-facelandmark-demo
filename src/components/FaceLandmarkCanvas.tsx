@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DrawLandmarkCanvas from "./DrawLandmarkCanvas";
 import AvatarCanvas from "./AvatarCanvas";
 import FaceLandmarkManager from "@/class/FaceLandmarkManager";
@@ -28,13 +28,13 @@ const FaceLandmarkCanvas = () => {
   };
 
   const animate = () => {
-    const faceLandmarkManager = FaceLandmarkManager.getInstance();
     if (videoRef.current) {
       const video = videoRef.current as HTMLVideoElement;
       const nowInMs = Date.now();
       if (video.currentTime !== lastVideoTimeRef.current) {
         lastVideoTimeRef.current = video.currentTime;
         try {
+          const faceLandmarkManager = FaceLandmarkManager.getInstance();
           faceLandmarkManager.detectLandmarks(videoRef.current, nowInMs);
         } catch (e) {
           console.log(e);
@@ -50,19 +50,17 @@ const FaceLandmarkCanvas = () => {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
         });
-        setTimeout(() => {
-          if (videoRef.current) {
-            const video = videoRef.current as HTMLVideoElement;
-            video.srcObject = stream;
-            video.onloadedmetadata = () => {
-              setVideoSize({
-                width: video.offsetWidth,
-                height: video.offsetHeight,
-              });
-              video.play();
-            };
-          }
-        }, 300);
+        if (videoRef.current) {
+          const video = videoRef.current as HTMLVideoElement;
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            setVideoSize({
+              width: video.offsetWidth,
+              height: video.offsetHeight,
+            });
+            video.play();
+          };
+        }
       } catch (e) {
         console.log(e);
         alert("Failed to load webcam!");
